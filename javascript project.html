@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JavaScript Project</title>
+  <style>
+    :root {
+      --primary: #bb86fc; 
+      --secondary: #03dac6; 
+      --background: linear-gradient(135deg, #1f1f1f, #2d2d2d);
+      --text: #ffffff;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --blur: blur(10px);
+      --shadow: rgba(0, 0, 0, 0.4);
+      --accent: #bb86fc;
+    }
+
+    .light-mode {
+      --primary: #6200ee;
+      --secondary: #018786;
+      --background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+      --text: #000000;
+      --glass-bg: rgba(0, 0, 0, 0.05);
+      --shadow: rgba(0, 0, 0, 0.1);
+      --accent: #6200ee;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      padding: 20px;
+      min-height: 100vh;
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 40px;
+      text-shadow: 0 0 10px var(--primary);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .block {
+      background: var(--glass-bg);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px var(--shadow);
+      backdrop-filter: var(--blur);
+      transition: transform 0.3s ease-in-out;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .block:hover {
+      transform: translateY(-8px) scale(1.02);
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 6px;
+    }
+
+    input, button, textarea {
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--primary);
+      font-size: 14px;
+      margin-bottom: 10px;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+    }
+
+    button {
+      background: var(--primary);
+      border: 1px solid var(--primary);
+      cursor: pointer;
+      font-weight: 600;
+      color: white;
+    }
+
+    button:hover {
+      background: var(--secondary);
+      border-color: var(--secondary);
+    }
+
+    .circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin: auto;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .circle:hover {
+      transform: scale(1.1);
+    }
+
+    .color-preview {
+      width: 60px;
+      height: 60px;
+      border: 2px solid var(--accent);
+      margin-top: 10px;
+      background-color: #fff;
+    }
+
+    .color-name {
+      font-family: monospace;
+      margin-top: 8px;
+      color: var(--primary);
+    }
+
+    .counter-btn {
+      background: var(--accent);
+    }
+
+    #calculator {
+      grid-column: span 2;
+      background: rgba(30, 30, 30, 0.6);
+      backdrop-filter: var(--blur);
+    }
+
+    .calc-display {
+      width: 100%;
+      font-size: 1.5em;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: rgba(255, 255, 255, 0.07);
+      color: var(--text);
+    }
+
+    .calc-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    /* New Components Styles */
+    .dice-container {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+
+    .dice {
+      width: 50px;
+      height: 50px;
+      background: white;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      color: black;
+      box-shadow: 0 2px 5px var(--shadow);
+    }
+
+    .counter-container {
+      display: flex;
+      justify-content: space-between;
+      margin: 15px 0;
+    }
+
+    .counter-value {
+      font-size: 24px;
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .quote-box {
+      padding: 15px;
+      border-left: 4px solid var(--primary);
+      background: var(--glass-bg);
+      margin: 10px 0;
+    }
+
+    .quote-author {
+      text-align: right;
+      font-style: italic;
+      margin-top: 10px;
+    }
+
+    #journal {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .clock {
+      font-size: 2rem;
+      text-align: center;
+      margin: 15px 0;
+      font-family: monospace;
+    }
+
+    .multiplication-table {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .multiplication-table div {
+      padding: 5px;
+      text-align: center;
+      background: var(--glass-bg);
+      border-radius: 5px;
+    }
+
+    .countdown-output {
+      height: 200px;
+      overflow-y: auto;
+      background: var(--glass-bg);
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-family: monospace;
+    }
+
+    #notes {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .bulb {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #ffeb3b;
+      margin: 20px auto;
+      box-shadow: 0 0 30px #ffeb3b;
+      cursor: pointer;
+    }
+
+    .bulb.off {
+      background: #ccc;
+      box-shadow: none;
+    }
+
+    .theme-toggle-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .theme-toggle {
+      padding: 10px 20px;
+      border-radius: 20px;
+      background: var(--primary);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 10px var(--shadow);
+    }
+
+    .task-manager {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .task-list {
+      margin-top: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .task-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .task-item button {
+      width: auto;
+      padding: 2px 8px;
+      margin-left: 5px;
+    }
+
+    @media (max-width: 768px) {
+      #calculator {
+        grid-column: span 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="theme-toggle-container">
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Dark/Light Mode</button>
+  </div>
+  
+  <h1>JavaScript Project</h1>
+  <div class="grid">
+    <!-- Color Tools -->
+    <div class="block">
+      <h2>Color Changer</h2>
+      <div class="circle" onclick="changeColor(this)" data-color-index="0"></div>
+    </div>
+
+    <!-- Color Mixer -->
+    <div class="block">
+      <h2>Color Mixer</h2>
+      <input type="range" id="red" min="0" max="255" value="128">
+      <input type="range" id="green" min="0" max="255" value="128">
+      <input type="range" id="blue" min="0" max="255" value="128">
+      <div class="color-preview" id="colorPreview"></div>
+      <div class="color-name" id="colorName"></div>
+    </div>
+
+    <!-- Bulb Toggle -->
+    <div class="block">
+      <h2>Bulb Toggle</h2>
+      <div class="bulb" id="bulb" onclick="toggleBulb()"></div>
+      <button onclick="toggleBulb()">Toggle Bulb</button>
+    </div>
+
+    <!-- Math Operations -->
+    <div class="block">
+      <h2>Math Operations</h2>
+      <input type="number" id="num1" placeholder="Number 1">
+      <input type="number" id="num2" placeholder="Number 2">
+      <button onclick="performOperation('add')">Add</button>
+      <button onclick="performOperation('multiply')">Multiply</button>
+      <p id="mathResult"></p>
+    </div>
+
+    <!-- Calculator -->
+    <div class="block" id="calculator">
+      <h2>Calculator</h2>
+      <input type="text" class="calc-display" id="display" readonly>
+      <div class="calc-buttons">
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button onclick="appendToDisplay('+')">+</button>
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button onclick="appendToDisplay('-')">-</button>
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button onclick="appendToDisplay('*')">*</button>
+        <button onclick="appendToDisplay('0')">0</button>
+        <button onclick="appendToDisplay('.')">.</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="appendToDisplay('/')">/</button>
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="appendToDisplay('(')">(</button>
+        <button onclick="appendToDisplay(')')">)</button>
+        <button onclick="calculatePower()">^</button>
+      </div>
+    </div>
+
+    <!-- Multiplication Table -->
+    <div class="block">
+      <h2>Multiplication Table</h2>
+      <input type="number" id="tableNumber" placeholder="Enter a number" min="1">
+      <button onclick="generateTable()">Generate Table</button>
+      <div class="multiplication-table" id="multiplicationTable"></div>
+    </div>
+
+    <!-- Dice Roller -->
+    <div class="block">
+      <h2>Dice Roller</h2>
+      <div class="dice-container">
+        <div class="dice" id="dice1">1</div>
+        <div class="dice" id="dice2">1</div>
+        <div class="dice" id="dice3">1</div>
+      </div>
+      <button onclick="rollDice()">Roll Dice</button>
+    </div>
+
+    <!-- Number Counter -->
+    <div class="block">
+      <h2>Number Counter</h2>
+      <div class="counter-value" id="counterValue">0</div>
+      <div class="counter-container">
+        <button onclick="changeCounter(-1)">Decrease</button>
+        <button onclick="resetCounter()">Reset</button>
+        <button onclick="changeCounter(1)">Increase</button>
+      </div>
+    </div>
+
+    <!-- Countdown Generator -->
+    <div class="block">
+      <h2>Countdown Generator</h2>
+      <input type="number" id="countdownNumber" placeholder="Enter a number" min="1">
+      <button onclick="startCountdown()">Start Countdown</button>
+      <div class="countdown-output" id="countdownOutput"></div>
+    </div>
+
+    <!-- Digital Clock -->
+    <div class="block">
+      <h2>Digital Clock</h2>
+      <div class="clock" id="clock"></div>
+    </div>
+
+    <!-- Quote Generator -->
+    <div class="block">
+      <h2>Quote Generator</h2>
+      <div class="quote-box" id="quoteBox">
+        Click the button to get a random quote
+      </div>
+      <button onclick="generateQuote()">New Quote</button>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="block">
+      <h2>Registration</h2>
+      <form id="regForm" onsubmit="return handleFormSubmit(event)">
+        <input type="text" placeholder="Name" required>
+        <input type="email" placeholder="Email" required>
+        <input type="tel" placeholder="Contact" required>
+        <input type="number" placeholder="Roll No" required>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <!-- Password Strength Checker -->
+    <div class="block">
+      <h2>Password Strength Checker</h2>
+      <input type="password" id="password" placeholder="Enter Password" required oninput="checkPasswordStrength()">
+      <span id="passwordStrength"></span>
+    </div>
+
+    <!-- Number Checker -->
+    <div class="block">
+      <h2>Number Checkers</h2>
+      <input type="number" id="evenOddInput" placeholder="Check Even/Odd">
+      <button onclick="checkEvenOdd()">Check</button>
+      <p id="evenOddResult"></p>
+      <input type="number" id="primeInput" placeholder="Find Primes">
+      <button onclick="showPrimes()">Show Primes</button>
+      <p id="primeResult"></p>
+    </div>
+
+    <!-- Age & Grade -->
+    <div class="block">
+      <h2>Age & Grade</h2>
+      <input type="number" id="ageInput" placeholder="Check Voting Age">
+      <button onclick="checkVotingAge()">Check</button>
+      <p id="votingResult"></p>
+      <input type="number" id="marksInput" placeholder="Calculate Grade (1-100)">
+      <button onclick="calculateGrade()">Grade</button>
+      <p id="gradeResult"></p>
+    </div>
+
+    <!-- Interaction -->
+    <div class="block">
+      <h2>Interaction Tracker</h2>
+      <button class="counter-btn" id="counterButton">Interact</button>
+      <p>Clicks: <span id="clickCount">0</span></p>
+      <p>Double Clicks: <span id="dblClickCount">0</span></p>
+      <p>Hovers: <span id="hoverCount">0</span></p>
+    </div>
+
+    <!-- Daily Journal -->
+    <div class="block">
+      <h2>Daily Journal</h2>
+      <textarea id="journal" placeholder="Write your thoughts here..."></textarea>
+      <button onclick="saveJournal()">Save Journal</button>
+      <button onclick="loadJournal()">Load Journal</button>
+    </div>
+
+    <!-- Notes Box -->
+    <div class="block">
+      <h2>Notes</h2>
+      <textarea id="notes" placeholder="Take some notes..."></textarea>
+      <button onclick="saveNotes()">Save Notes</button>
+      <button onclick="loadNotes()">Load Notes</button>
+    </div>
+
+    <!-- Task Manager -->
+    <div class="block">
+      <h2>Task Manager</h2>
+      <div class="task-manager">
+        <input type="text" id="taskInput" placeholder="Enter a new task">
+        <button onclick="addTask()">Add Task</button>
+        <div class="task-list" id="taskList"></div>
+      </div>
+    </div>
+
+    <!-- Feedback Box -->
+    <div class="block">
+      <h2>Feedback</h2>
+      <textarea id="feedback" placeholder="Your feedback here..."></textarea>
+      <button onclick="submitFeedback()">Submit Feedback</button>
+      <p id="feedbackMessage"></p>
+    </div>
+  </div>
+
+  <script>
+    // Theme Toggle
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
+      localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+
+    // Check saved theme preference
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-mode');
+    }
+
+    // Dice Roller
+    function rollDice() {
+      const dice1 = Math.floor(Math.random() * 6) + 1;
+      const dice2 = Math.floor(Math.random() * 6) + 1;
+      const dice3 = Math.floor(Math.random() * 6) + 1;
+      
+      document.getElementById('dice1').textContent = dice1;
+      document.getElementById('dice2').textContent = dice2;
+      document.getElementById('dice3').textContent = dice3;
+    }
+
+    // Number Counter
+    let counter = 0;
+    function changeCounter(amount) {
+      counter += amount;
+      document.getElementById('counterValue').textContent = counter;
+    }
+
+    function resetCounter() {
+      counter = 0;
+      document.getElementById('counterValue').textContent = counter;
+    }
+
+    // Quote Generator
+    const quotes = [
+      { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+      { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+      { text: "In the middle of difficulty lies opportunity.", author: "Albert Einstein" },
+      { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+      { text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill" },
+      { text: "Be the change that you wish to see in the world.", author: "Mahatma Gandhi" },
+      { text: "You only live once, but if you do it right, once is enough.", author: "Mae West" },
+      { text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" },
+      { text: "Do not watch the clock. Do what it does. Keep going.", author: "Sam Levenson" },
+      { text: "The best way to predict the future is to invent it.", author: "Alan Kay" }
+    ];
+
+    function generateQuote() {
+      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById('quoteBox').innerHTML = 
+        `"${randomQuote.text}"<div class="quote-author">- ${randomQuote.author}</div>`;
+    }
+
+    // Daily Journal
+    function saveJournal() {
+      const journalContent = document.getElementById('journal').value;
+      localStorage.setItem('journal', journalContent);
+      alert('Journal saved!');
+    }
+
+    function loadJournal() {
+      const savedJournal = localStorage.getItem('journal');
+      if (savedJournal) {
+        document.getElementById('journal').value = savedJournal;
+      } else {
+        alert('No saved journal found.');
+      }
+    }
+
+    // Digital Clock
+    function updateClock() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString();
+      document.getElementById('clock').textContent = timeString;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Multiplication Table
+    function generateTable() {
+      const number = parseInt(document.getElementById('tableNumber').value);
+      if (isNaN(number) || number < 1) {
+        alert('Please enter a valid number greater than 0');
+        return;
+      }
+
+      let tableHTML = '';
+      for (let i = 1; i <= 10; i++) {
+        tableHTML += `<div>${number} × ${i} = ${number * i}</div>`;
+      }
+      document.getElementById('multiplicationTable').innerHTML = tableHTML;
+    }
+
+    // Countdown Generator
+    function startCountdown() {
+      const number = parseInt(document.getElementById('countdownNumber').value);
+      if (isNaN(number) || number < 1) {
+        alert('Please enter a valid number greater than 0');
+        return;
+      }
+
+      let countdownHTML = '';
+      for (let i = number; i >= 1; i--) {
+        countdownHTML += i + '<br>';
+      }
+      document.getElementById('countdownOutput').innerHTML = countdownHTML;
+    }
+
+    // Notes Box
+    function saveNotes() {
+      const notesContent = document.getElementById('notes').value;
+      localStorage.setItem('notes', notesContent);
+      alert('Notes saved!');
+    }
+
+    function loadNotes() {
+      const savedNotes = localStorage.getItem('notes');
+      if (savedNotes) {
+        document.getElementById('notes').value = savedNotes;
+      } else {
+        alert('No saved notes found.');
+      }
+    }
+
+    // Bulb Toggle
+    function toggleBulb() {
+      const bulb = document.getElementById('bulb');
+      bulb.classList.toggle('off');
+    }
+
+    // Task Manager
+    function addTask() {
+      const taskInput = document.getElementById('taskInput');
+      const taskText = taskInput.value.trim();
+      
+      if (taskText) {
+        const taskList = document.getElementById('taskList');
+        const taskId = Date.now();
+        
+        const taskItem = document.createElement('div');
+        taskItem.className = 'task-item';
+        taskItem.innerHTML = `
+          <span>${taskText}</span>
+          <div>
+            <button onclick="removeTask(${taskId})">Delete</button>
+          </div>
+        `;
+        taskItem.setAttribute('data-id', taskId);
+        
+        taskList.appendChild(taskItem);
+        saveTasks();
+        taskInput.value = '';
+      }
+    }
+
+    function removeTask(taskId) {
+      const taskItem = document.querySelector(`.task-item[data-id="${taskId}"]`);
+      if (taskItem) {
+        taskItem.remove();
+        saveTasks();
+      }
+    }
+
+    function saveTasks() {
+      const tasks = [];
+      document.querySelectorAll('.task-item').forEach(item => {
+        tasks.push({
+          id: item.getAttribute('data-id'),
+          text: item.querySelector('span').textContent
+        });
+      });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function loadTasks() {
+      const savedTasks = localStorage.getItem('tasks');
+      if (savedTasks) {
+        const tasks = JSON.parse(savedTasks);
+        const taskList = document.getElementById('taskList');
+        taskList.innerHTML = '';
+        
+        tasks.forEach(task => {
+          const taskItem = document.createElement('div');
+          taskItem.className = 'task-item';
+          taskItem.innerHTML = `
+            <span>${task.text}</span>
+            <div>
+              <button onclick="removeTask(${task.id})">Delete</button>
+            </div>
+          `;
+          taskItem.setAttribute('data-id', task.id);
+          taskList.appendChild(taskItem);
+        });
+      }
+    }
+
+    // Feedback Box
+    function submitFeedback() {
+      const feedback = document.getElementById('feedback').value.trim();
+      if (feedback) {
+        document.getElementById('feedbackMessage').textContent = 'Thank you for your feedback!';
+        document.getElementById('feedback').value = '';
+        setTimeout(() => {
+          document.getElementById('feedbackMessage').textContent = '';
+        }, 3000);
+      } else {
+        document.getElementById('feedbackMessage').textContent = 'Please enter some feedback first.';
+      }
+    }
+
+    // Existing Functions from Original Code
+    const colors = ['#bb86fc', '#03dac6', '#f5a623'];
+
+    function checkPasswordStrength() {
+      const password = document.getElementById('password').value;
+      const strengthIndicator = document.getElementById('passwordStrength');
+      
+      const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+      
+      if (hasSymbol) {
+          strengthIndicator.textContent = "Strength: Strong";
+          strengthIndicator.style.color = 'green';
+      } else {
+          strengthIndicator.textContent = "Strength: Weak";
+          strengthIndicator.style.color = 'red';
+      }
+    }
+
+    function changeColor(circle) {
+      const currentIndex = parseInt(circle.getAttribute('data-color-index')) || 0;
+      const newIndex = (currentIndex + 1) % colors.length;
+      circle.style.backgroundColor = colors[newIndex];
+      circle.setAttribute('data-color-index', newIndex);
+    }
+
+    function performOperation(operation) {
+      const num1 = parseFloat(document.getElementById('num1').value);
+      const num2 = parseFloat(document.getElementById('num2').value);
+      const result = operation === 'add' ? num1 + num2 : num1 * num2;
+      document.getElementById('mathResult').textContent = `Result: ${result}`;
+    }
+
+    function checkEvenOdd() {
+      const num = parseInt(document.getElementById('evenOddInput').value);
+      document.getElementById('evenOddResult').textContent = num % 2 === 0 ? 'Even' : 'Odd';
+    }
+
+    function checkVotingAge() {
+      const age = parseInt(document.getElementById('ageInput').value);
+      document.getElementById('votingResult').textContent = age >= 18 ? 'Eligible to vote' : 'Not eligible';
+    }
+
+    function isPrime(n) {
+      for (let i = 2; i <= Math.sqrt(n); i++) if (n % i === 0) return false;
+      return n > 1;
+    }
+
+    function showPrimes() {
+      const limit = parseInt(document.getElementById('primeInput').value);
+      const primes = [];
+      for (let i = 2; i <= limit; i++) if (isPrime(i)) primes.push(i);
+      document.getElementById('primeResult').textContent = primes.join(', ');
+    }
+
+    function calculateGrade() {
+      const marks = parseInt(document.getElementById('marksInput').value);
+      let grade = marks >= 75 ? 'A+' : marks >= 70 ? 'A' : marks >= 65 ? 'A-' :
+        marks >= 60 ? 'B+' : marks >= 55 ? 'B' : marks >= 50 ? 'B-' :
+        marks >= 45 ? 'C+' : marks >= 40 ? 'C' : marks >= 35 ? 'C-' :
+        marks >= 30 ? 'D' : 'F';
+      document.getElementById('gradeResult').textContent = `Grade: ${grade}`;
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      alert('Form submitted!');
+      event.target.reset();
+    }
+
+    // Interactions
+    let clickCount = 0, dblClickCount = 0, hoverCount = 0;
+    const counterButton = document.getElementById('counterButton');
+    counterButton.addEventListener('click', () => {
+      document.getElementById('clickCount').textContent = ++clickCount;
+    });
+    counterButton.addEventListener('dblclick', () => {
+      document.getElementById('dblClickCount').textContent = ++dblClickCount;
+    });
+    counterButton.addEventListener('mouseover', () => {
+      document.getElementById('hoverCount').textContent = ++hoverCount;
+    });
+
+    // Color Mixer
+    document.querySelectorAll('input[type=range]').forEach(input => {
+      input.addEventListener('input', updateColor);
+    });
+
+    function updateColor() {
+      const r = document.getElementById('red').value;
+      const g = document.getElementById('green').value;
+      const b = document.getElementById('blue').value;
+      const rgb = `rgb(${r}, ${g}, ${b})`;
+      document.getElementById('colorPreview').style.backgroundColor = rgb;
+      document.getElementById('colorName').textContent = rgb;
+    }
+    updateColor();
+
+    // Calculator
+    function appendToDisplay(value) {
+      document.getElementById('display').value += value;
+    }
+
+    function clearDisplay() {
+      document.getElementById('display').value = '';
+    }
+
+    function calculate() {
+      try {
+        document.getElementById('display').value = eval(document.getElementById('display').value);
+      } catch {
+        alert('Invalid expression');
+        clearDisplay();
+      }
+    }
+
+    function calculatePower() {
+      const [base, exp] = document.getElementById('display').value.split('^');
+      document.getElementById('display').value = Math.pow(base, exp);
+    }
+
+    // Load tasks when page loads
+    window.onload = function() {
+      loadTasks();
+    };
+  </script>
+</body>
+</html>
